@@ -37,4 +37,31 @@ describe("Gilded Rose", function() {
       expect(items[0].quality).toEqual(80);
     });
   });
+
+  describe("“Backstage passes” increases in Quality as it’s SellIn value approaches", function () {
+    it("Quality increases by 1 when there are more than 10 days", function () {
+      var gilgedRose = new Shop([ new Item("Backstage passes to a TAFKAL80ETC concert", 15, 20) ]);
+      var items = gilgedRose.updateQuality();
+      expect(items[0].sellIn).toEqual(14);
+      expect(items[0].quality).toEqual(21);
+    });
+    it("Quality increases by 2 when there are 10 days or less", function () {
+      var gilgedRose = new Shop([ new Item("Backstage passes to a TAFKAL80ETC concert", 10, 20) ]);
+      var items = gilgedRose.updateQuality();
+      expect(items[0].sellIn).toEqual(9);
+      expect(items[0].quality).toEqual(22);
+    });
+    it("Quality increases by 3 when there are 5 days or less", function () {
+      var gilgedRose = new Shop([ new Item("Backstage passes to a TAFKAL80ETC concert", 5, 20) ]);
+      var items = gilgedRose.updateQuality();
+      expect(items[0].sellIn).toEqual(4);
+      expect(items[0].quality).toEqual(23);
+    });
+    it("Quality drops to 0 after the concert", function () {
+      var gilgedRose = new Shop([ new Item("Backstage passes to a TAFKAL80ETC concert", 0, 20) ]);
+      var items = gilgedRose.updateQuality();
+      expect(items[0].sellIn).toEqual(-1);
+      expect(items[0].quality).toEqual(0);
+    });
+  });
 });
