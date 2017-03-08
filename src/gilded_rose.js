@@ -51,16 +51,7 @@ class Shop {
         change = 0;
         break;
       case 'Backstage passes to a TAFKAL80ETC concert':
-        if (item.sellIn < 0) {
-          change = 0;
-          item.quality = 0;
-        } else if (item.sellIn < 5) {
-          change = -3;
-        } else if (item.sellIn < 10) {
-          change = -2;
-        } else {
-          change = -1;
-        }
+        change = this._calculateBackstageChange(item);
         break;
       default:
         change = 1;
@@ -69,5 +60,18 @@ class Shop {
       change *= 2;
     }
     return change;
+  }
+
+  _calculateBackstageChange(item) {
+    if (item.sellIn < 0) {
+      item.quality = 0;
+      return 0;
+    } else if (item.sellIn < 5) {
+      return -3;
+    } else if (item.sellIn < 10) {
+      return -2;
+    } else {
+      return -1;
+    }
   }
 }
