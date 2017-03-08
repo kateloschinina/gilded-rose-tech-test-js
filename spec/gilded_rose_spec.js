@@ -18,7 +18,7 @@ describe("Gilded Rose", function() {
     expect(items[0].quality).toEqual(0);
   });
 
-  describe("“Aged Brie”", function () {
+  describe("'Aged Brie'", function () {
     it("increases in Quality the older it gets", function() {
       var gilgedRose = new Shop([ new Item("Aged Brie", 1, 0) ]);
       var items = gilgedRose.updateQuality();
@@ -38,7 +38,7 @@ describe("Gilded Rose", function() {
     expect(items[0].quality).toEqual(50);
   });
 
-  describe("“Sulfuras, Hand of Ragnaros”, being a legendary item", function () {
+  describe("'Sulfuras, Hand of Ragnaros', being a legendary item", function () {
     it("never has to be sold", function() {
       var gilgedRose = new Shop([ new Item("Sulfuras, Hand of Ragnaros", -1, 50) ]);
       var items = gilgedRose.updateQuality();
@@ -52,7 +52,7 @@ describe("Gilded Rose", function() {
     });
   });
 
-  describe("“Backstage passes” increases in Quality as it’s SellIn value approaches", function () {
+  describe("'Backstage passes' increases in Quality as its SellIn value approaches", function () {
     it("Quality increases by 1 when there are more than 10 days", function () {
       var gilgedRose = new Shop([ new Item("Backstage passes to a TAFKAL80ETC concert", 15, 20) ]);
       var items = gilgedRose.updateQuality();
@@ -73,7 +73,7 @@ describe("Gilded Rose", function() {
       expect(items[0].sellIn).toEqual(4);
       expect(items[0].quality).toEqual(23);
     });
-    
+
     it("Quality drops to 0 after the concert", function () {
       var gilgedRose = new Shop([ new Item("Backstage passes to a TAFKAL80ETC concert", 0, 20) ]);
       var items = gilgedRose.updateQuality();
