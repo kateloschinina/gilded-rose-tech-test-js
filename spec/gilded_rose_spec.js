@@ -23,4 +23,18 @@ describe("Gilded Rose", function() {
     var items = gilgedRose.updateQuality();
     expect(items[0].quality).toEqual(50);
   });
+
+  describe("“Sulfuras, Hand of Ragnaros”, being a legendary item", function () {
+    it("never has to be sold", function() {
+      var gilgedRose = new Shop([ new Item("Sulfuras, Hand of Ragnaros", -1, 50) ]);
+      var items = gilgedRose.updateQuality();
+      expect(items[0].sellIn).toEqual(-1);
+    });
+
+    it("never decreases in Quality", function() {
+      var gilgedRose = new Shop([ new Item("Sulfuras, Hand of Ragnaros", 0, 80) ]);
+      var items = gilgedRose.updateQuality();
+      expect(items[0].quality).toEqual(80);
+    });
+  });
 });
