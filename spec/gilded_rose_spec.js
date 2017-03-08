@@ -1,9 +1,9 @@
 describe("Gilded Rose", function() {
 
-  it("should foo", function() {
-    const gilgedRose = new Shop([ new Item("foo", 0, 0) ]);
-    const items = gilgedRose.updateQuality();
-    expect(items[0].name).toEqual("fixme");
+  it("Once the sell by date has passed, Quality degrades twice as fast", function() {
+    var gilgedRose = new Shop([ new Item("foo", 0, 10) ]);
+    var items = gilgedRose.updateQuality();
+    expect(items[0].quality).toEqual(8);
   });
 
 });
