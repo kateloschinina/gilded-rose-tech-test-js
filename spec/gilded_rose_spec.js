@@ -18,13 +18,21 @@ describe("Gilded Rose", function() {
     expect(items[0].quality).toEqual(0);
   });
 
-  it("“Aged Brie” actually increases in Quality the older it gets", function() {
-    var gilgedRose = new Shop([ new Item("Aged Brie", 0, 0) ]);
-    var items = gilgedRose.updateQuality();
-    expect(items[0].quality).toEqual(2);
+  describe("“Aged Brie”", function () {
+    it("increases in Quality the older it gets", function() {
+      var gilgedRose = new Shop([ new Item("Aged Brie", 1, 0) ]);
+      var items = gilgedRose.updateQuality();
+      expect(items[0].quality).toEqual(1);
+    });
+
+    it("increases two times faster after an expiration date", function() {
+      var gilgedRose = new Shop([ new Item("Aged Brie", 0, 0) ]);
+      var items = gilgedRose.updateQuality();
+      expect(items[0].quality).toEqual(2);
+    });
   });
 
-  it("The Quality of an item is never negative", function() {
+  it("The Quality of an item is never more than 50", function() {
     var gilgedRose = new Shop([ new Item("Aged Brie", 0, 50) ]);
     var items = gilgedRose.updateQuality();
     expect(items[0].quality).toEqual(50);
@@ -51,18 +59,21 @@ describe("Gilded Rose", function() {
       expect(items[0].sellIn).toEqual(14);
       expect(items[0].quality).toEqual(21);
     });
+
     it("Quality increases by 2 when there are 10 days or less", function () {
       var gilgedRose = new Shop([ new Item("Backstage passes to a TAFKAL80ETC concert", 10, 20) ]);
       var items = gilgedRose.updateQuality();
       expect(items[0].sellIn).toEqual(9);
       expect(items[0].quality).toEqual(22);
     });
+
     it("Quality increases by 3 when there are 5 days or less", function () {
       var gilgedRose = new Shop([ new Item("Backstage passes to a TAFKAL80ETC concert", 5, 20) ]);
       var items = gilgedRose.updateQuality();
       expect(items[0].sellIn).toEqual(4);
       expect(items[0].quality).toEqual(23);
     });
+    
     it("Quality drops to 0 after the concert", function () {
       var gilgedRose = new Shop([ new Item("Backstage passes to a TAFKAL80ETC concert", 0, 20) ]);
       var items = gilgedRose.updateQuality();
