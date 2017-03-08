@@ -11,4 +11,10 @@ describe("Gilded Rose", function() {
     var items = gilgedRose.updateQuality();
     expect(items[0].quality).toEqual(0);
   });
+
+  it("“Aged Brie” actually increases in Quality the older it gets", function() {
+    var gilgedRose = new Shop([ new Item("Aged Brie", 0, 0) ]);
+    var items = gilgedRose.updateQuality();
+    expect(items[0].quality).toEqual(2);
+  });
 });
