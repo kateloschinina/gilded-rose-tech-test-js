@@ -81,4 +81,10 @@ describe("Gilded Rose", function() {
       expect(items[0].quality).toEqual(0);
     });
   });
+
+  it("'Conjured' items degrade in Quality twice as fast as normal items", function () {
+    var gilgedRose = new Shop([ new Item("Conjured milk", 2, 20) ]);
+    var items = gilgedRose.updateQuality();
+    expect(items[0].quality).toEqual(18);
+  });
 });

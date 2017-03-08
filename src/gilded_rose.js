@@ -56,7 +56,7 @@ class Shop {
       default:
         change = 1;
     }
-    if (item.sellIn < 0) {
+    if ((item.sellIn < 0)||(item.name.includes('Conjured'))) {
       change *= 2;
     }
     return change;
