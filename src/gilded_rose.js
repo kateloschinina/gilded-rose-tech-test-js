@@ -13,50 +13,61 @@ class Shop {
 
   updateQuality() {
     for (var i = 0; i < this.items.length; i++) {
-      if (this.items[i].name != 'Aged Brie' && this.items[i].name != 'Backstage passes to a TAFKAL80ETC concert') {
-        if (this.items[i].quality > 0) {
-          if (this.items[i].name != 'Sulfuras, Hand of Ragnaros') {
-            this.items[i].quality -= 1
-          }
-        }
-      } else {
-        if (this.items[i].quality < 50) {
-          this.items[i].quality += 1
-          if (this.items[i].name == 'Backstage passes to a TAFKAL80ETC concert') {
-            if (this.items[i].sellIn < 11) {
-              if (this.items[i].quality < 50) {
-                this.items[i].quality += 1
-              }
-            }
-            if (this.items[i].sellIn < 6) {
-              if (this.items[i].quality < 50) {
-                this.items[i].quality += 1
-              }
-            }
-          }
-        }
-      }
-      if (this.items[i].name != 'Sulfuras, Hand of Ragnaros') {
-        this.items[i].sellIn -= 1;
-      }
-      if (this.items[i].sellIn < 0) {
-        if (this.items[i].name != 'Aged Brie') {
-          if (this.items[i].name != 'Backstage passes to a TAFKAL80ETC concert') {
-            if (this.items[i].quality > 0) {
-              if (this.items[i].name != 'Sulfuras, Hand of Ragnaros') {
-                this.items[i].quality -= 1
-              }
-            }
-          } else {
-            this.items[i].quality = 0
-          }
-        } else {
-          if (this.items[i].quality < 50) {
-            this.items[i].quality += 1
-          }
-        }
-      }
+      var item = this.items[i];
+      this._updateItem(item);
     }
     return this.items;
+  }
+
+  _updateItem(item) {
+    item.sellIn -= this._defineDateChange(item);
+    item.quality = this._calculateQuality(item);
+  }
+
+  _calculateQuality(item) {
+    var delta = this._defineQualityChange(item);
+    if (item.name === 'Sulfuras, Hand of Ragnaros') {
+      return item.quality;
+    } else {
+      return Math.min(Math.max(item.quality - delta, 0), 50);
+    }
+  }
+
+  _defineDateChange(item){
+    if (item.name === 'Sulfuras, Hand of Ragnaros') {
+      return 0;
+    } else {
+      return 1;
+    }
+  }
+
+  _defineQualityChange(item) {
+    var change;
+    switch (item.name) {
+      case 'Aged Brie':
+        change = -1;
+        break;
+      case 'Sulfuras, Hand of Ragnaros':
+        change = 0;
+        break;
+      case 'Backstage passes to a TAFKAL80ETC concert':
+        if (item.sellIn < 0) {
+          change = 0;
+          item.quality = 0;
+        } else if (item.sellIn < 5) {
+          change = -3;
+        } else if (item.sellIn < 10) {
+          change = -2;
+        } else {
+          change = -1;
+        }
+        break;
+      default:
+        change = 1;
+    }
+    if (item.sellIn < 0) {
+      change *= 2;
+    }
+    return change;
   }
 }
