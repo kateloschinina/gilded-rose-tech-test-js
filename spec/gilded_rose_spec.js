@@ -1,5 +1,5 @@
 describe("Gilded Rose", function() {
-  it("If the sell by date has passed, Quality degrades by 1 every day", function() {
+  it("If the sell by date has not passed, Quality degrades by 1 every day", function() {
     var gilgedRose = new Shop([ new Item("foo", 6, 10) ]);
     var items = gilgedRose.updateQuality();
     expect(items[0].sellIn).toEqual(5);
