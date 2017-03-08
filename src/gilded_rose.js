@@ -13,8 +13,7 @@ class Shop {
 
   updateQuality() {
     for (var i = 0; i < this.items.length; i++) {
-      var item = this.items[i];
-      this._updateItem(item);
+      this._updateItem(this.items[i]);
     }
     return this.items;
   }
@@ -25,12 +24,21 @@ class Shop {
   }
 
   _calculateQuality(item) {
-    var delta = this._defineQualityChange(item);
-    if (item.name === 'Sulfuras, Hand of Ragnaros') {
-      return item.quality;
-    } else {
-      return Math.min(Math.max(item.quality - delta, 0), 50);
+    switch (item.name) {
+      case 'Sulfuras, Hand of Ragnaros':
+        return item.quality;
+      case 'Backstage passes to a TAFKAL80ETC concert':
+        if (item.sellIn < 0) {
+          return 0;
+        }
+        return this. _calculateQualityLimits(item.quality, this._defineQualityChange(item));
+      default:
+        return this. _calculateQualityLimits(item.quality, this._defineQualityChange(item));
     }
+  }
+
+  _calculateQualityLimits(quality, delta) {
+    return Math.min(Math.max(quality - delta, 0), 50);
   }
 
   _defineDateChange(item){
@@ -42,29 +50,32 @@ class Shop {
   }
 
   _defineQualityChange(item) {
-    var change;
+    return this._calculateNameFactor(item) * this._calculateDateAndConjuredFactor(item);
+  }
+
+  _calculateNameFactor(item) {
     switch (item.name) {
       case 'Aged Brie':
-        change = -1;
-        break;
+        return -1;
       case 'Sulfuras, Hand of Ragnaros':
-        change = 0;
-        break;
+        return 0;
       case 'Backstage passes to a TAFKAL80ETC concert':
-        change = this._calculateBackstageChange(item);
-        break;
+        return this._calculateBackstageChange(item);
       default:
-        change = 1;
+        return 1;
     }
+  }
+
+  _calculateDateAndConjuredFactor(item) {
     if ((item.sellIn < 0)||(item.name.includes('Conjured'))) {
-      change *= 2;
+      return 2;
+    } else {
+      return 1;
     }
-    return change;
   }
 
   _calculateBackstageChange(item) {
     if (item.sellIn < 0) {
-      item.quality = 0;
       return 0;
     } else if (item.sellIn < 5) {
       return -3;
