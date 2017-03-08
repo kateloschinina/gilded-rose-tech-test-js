@@ -17,4 +17,10 @@ describe("Gilded Rose", function() {
     var items = gilgedRose.updateQuality();
     expect(items[0].quality).toEqual(2);
   });
+
+  it("The Quality of an item is never negative", function() {
+    var gilgedRose = new Shop([ new Item("Aged Brie", 0, 50) ]);
+    var items = gilgedRose.updateQuality();
+    expect(items[0].quality).toEqual(50);
+  });
 });
