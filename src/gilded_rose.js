@@ -31,9 +31,9 @@ class Shop {
         if (item.sellIn < 0) {
           return 0;
         }
-        return this. _calculateQualityLimits(item.quality, this._defineQualityChange(item));
+        return this._calculateQualityLimits(item.quality, this._defineQualityChange(item));
       default:
-        return this. _calculateQualityLimits(item.quality, this._defineQualityChange(item));
+        return this._calculateQualityLimits(item.quality, this._defineQualityChange(item));
     }
   }
 
